@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Browser Extensions Showcase
+
+A modern Next.js app that displays and manages browser extensions, featuring dark mode, responsive design, and beautiful UI with Tailwind CSS.
+
+## Features
+- **Extension List**: View, filter (All, Active, Inactive), and remove extensions.
+- **Dark Mode**: Automatically detects system theme and allows manual toggling.
+- **Responsive Design**: Cards shrink/grow between 250px and 350px, adapting to screen size.
+- **Custom Styling**: Uses Tailwind CSS for colors, box shadows, and layout.
+- **Font**: Uses Noto Sans from Google Fonts for a clean, readable look.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js
+- pnpm (recommended)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone <your-repo-url>
+   cd browser-extentions
+   ```
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+3. Start the development server:
+   ```bash
+   pnpm dev
+   ```
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
+- `src/app/page.tsx` — Main page component
+- `src/app/layout.tsx` — Root layout and font setup
+- `src/app/globals.css` — Global styles and Tailwind config
+- `src/app/data/data.json` — Extension data
+- `public/assets/images/` — Logos and icons
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Customization
+- **Add Extensions**: Edit `src/app/data/data.json` to add or update extensions.
+- **Change Colors**: Update `tailwind.config.js` or CSS variables in `globals.css`.
+- **Font**: Change the Google Fonts link in `layout.tsx` and update `globals.css` as needed.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Dark Mode Implementation
+- Uses React state to detect system theme on load (`window.matchMedia`).
+- User can toggle theme via sun/moon icon.
+- Tailwind's `dark:` classes style components based on theme.
 
-## Learn More
+## Responsive Cards
+- Cards use `min-w-[250px]`, `max-w-[350px]`, and `w-full` for flexible sizing.
+- Cards shrink before wrapping, ensuring a smooth layout on all devices.
 
-To learn more about Next.js, take a look at the following resources:
+## License
+MIT
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Feel free to customize and extend this project for your own browser extension showcase or dashboard!

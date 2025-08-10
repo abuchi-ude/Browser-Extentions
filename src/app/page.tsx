@@ -1,103 +1,126 @@
-import Image from "next/image";
+"use client"
+import { useEffect, useState } from "react"
+import Image from "next/image"
+import Logo from '/public/assets/images/logo-cropped.svg'
+import Sun from '/public/assets/images/icon-sun.svg'
+import Moon from '/public/assets/images/icon-moon.svg'
+import extensionData from './data/data.json'
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+type Extension = {
+  logo: string;
+  name: string;
+  description: string
+  isActive: boolean
+}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+// const extensions: Extension[] = [...extensionData]
+
+
+
+export default function BrowserExtention () {
+
+  const [ theme, setTheme ] = useState < 'light' | 'dark' | null > (null)
+  const [ extensions , setExtensions] = useState<Extension[]>(extensionData);  
+  const [ filter, setFilter ] = useState <'all'| 'active' | 'inactive'> ('all')
+
+
+  useEffect(() => {
+    const darken = window.matchMedia('(prefers-color-scheme: dark)').matches
+    setTheme(darken ? 'dark' : 'light')
+  }, [])
+  useEffect(() => {
+    if (theme)
+    document.body.className = theme
+  }, [theme])
+
+  if (theme === null) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-black text-white">
+        <span className="text-lg font-bold">Loading...</span>
+      </div>
+    )
+  }
+
+  const toggleTheme = () => {
+    setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light');
+  };
+  
+
+  const toggleCheck = (name: string) => {
+  
+    const updatedExtensions = extensions.map((extension) =>
+      extension.name === name
+        ? { ...extension, isActive: !extension.isActive }
+        : extension
+    );
+    setExtensions(updatedExtensions);
+  }
+
+  const handleDelete = (name: string) => {
+
+    const filteredExtensions = extensions.filter((extension) => extension.name !== name)
+    setExtensions(filteredExtensions)
+  }
+
+ 
+
+  const getFilteredExtentions = () => {
+    if (filter === 'active') {
+      return extensions.filter((extention) => extention.isActive === true)
+    }
+    else if (filter === 'inactive') {
+      return extensions.filter((extention) => extention.isActive === false)
+    }
+    else{
+      return extensions
+    }
+  }
+
+  const displayedExtentions = getFilteredExtentions()
+
+
+  return(
+    <main className="p-3 pt-10 flex flex-col gap-8 bg-neutral-200 dark:bg-neutral-900 dark:text-neutral-50 text-neutral-900 sm:px-[7%]">
+      <section className="Header flex items-center justify-between shadow-md bg-neutral-50 dark:bg-neutral-800 p-2 rounded-lg">
+        <div className="logo flex items-center gap-2">
+          <Image src={Logo} alt="Logo"/>
+          <h1 className="font-bold text-2xl">Extensions</h1>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+        <div onClick={toggleTheme} className="p-3 bg-neutral-300 dark:bg-neutral-700 rounded-lg">
+          {theme === 'dark' ? <Image src={Sun} alt="Sun-icon" /> : <Image src={Moon} alt="Moon-icon" />}
+        </div>
+      </section>
+
+      <section className="flex flex-col sm:flex-row sm:justify-between sm:mt-10 items-center gap-6">
+        <h1 className="font-bold text-4xl sm:text-[33px] md:text-4xl">Extensions List</h1>
+        <div className="flex justify-between sm:justify-end w-[90%] text-xl font-medium flex-1 gap-2">
+          <button className={`py-2 px-4 rounded-4xl bg-neutral-0 shadow-md dark:border dark:border-neutral-500 dark:bg-neutral-700 ${filter === 'all' && 'bg-red-700 text-neutral-50 dark:bg-red-500 dark:text-neutral-950 dark:border-0'} hover:bg-red-600 focus-visible:border focus-visible:border-red-600 cursor-pointer `} onClick={()=> setFilter('all')}>All</button>
+          <button className={`py-2 px-4 rounded-4xl bg-neutral-0 shadow-md dark:border dark:border-neutral-500 dark:bg-neutral-700 ${filter === 'active' && 'bg-red-700 text-neutral-50 dark:bg-red-500 dark:text-neutral-950 dark:border-0'} hover:bg-red-600 focus-visible:bg-red-700 focus-visible:border focus-visible:border-red-600 cursor-pointer`} onClick={()=> setFilter('active')}>Active</button>
+          <button className={`py-2 px-4 rounded-4xl bg-neutral-0 shadow-md dark:border dark:border-neutral-500 dark:bg-neutral-700 ${filter === 'inactive' && 'bg-red-700 text-neutral-50 dark:bg-red-500 dark:text-neutral-950 dark:border-0'} hover:bg-red-600 focus-visible:bg-red-700 focus-visible:border focus-visible:border-red-600 cursor-pointer`}onClick={()=> setFilter('inactive')}>Inactive</button>
+        </div>
+      </section>
+      <section className="extensions flex flex-col sm:flex-row flex-wrap gap-3 justify-center items-center">
+            {displayedExtentions.map((extension) => {
+              return(
+              <div key={extension.name} className="min-w-[250px] sm:max-w-none md:max-w-[320px] lg:max-w-[350px]  w-full h-[250px] justify-between p-5 rounded-xl flex flex-col gap-6 shadow-md dark:border dark:border-neutral-500 bg-neutral-50 dark:bg-neutral-800">
+                  <article className="flex gap-4 items-start">
+                    <img src={extension.logo} alt={extension.name} />  
+                    <div>
+                    <h2 className="font-bold text-xl">{extension.name}</h2>
+                    <p className="text-neutral-600 dark:text-neutral-400 font-medium"> {extension.description} </p>
+                    </div>
+                  </article>  
+                  <article className="flex justify-between">
+                    <button className="py-2 px-4 rounded-4xl border-2 border-neutral-300 dark:border-neutral-700 cursor-pointer hover:bg-red-700" onClick={() => handleDelete(extension.name)}>Remove</button>  
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" value="" className="sr-only peer" checked={extension.isActive} onChange={() =>toggleCheck(extension.name)}/>
+                      <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[12px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-700 dark:peer-checked:bg-red-500"></div>
+                    </label>
+                  </article>  
+              </div>
+              )
+            })}
+      </section>
+    </main>
+  )
 }
