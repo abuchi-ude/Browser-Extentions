@@ -86,7 +86,7 @@ export default function BrowserExtention () {
           <Image src={Logo} alt="Logo"/>
           <h1 className="font-bold text-2xl">Extensions</h1>
         </div>
-        <div onClick={toggleTheme} className="p-3 bg-neutral-300 dark:bg-neutral-700 rounded-lg">
+        <div onClick={toggleTheme} className="p-3 bg-neutral-300 dark:bg-neutral-700 rounded-lg cursor-pointer">
           {theme === 'dark' ? <Image src={Sun} alt="Sun-icon" /> : <Image src={Moon} alt="Moon-icon" />}
         </div>
       </section>
