@@ -127,17 +127,17 @@ export default function BrowserExtention () {
 
       <section className="flex flex-col sm:flex-row sm:justify-between sm:mt-10 items-center gap-6">
         <h1 className="font-bold text-4xl sm:text-[33px] md:text-4xl">Extensions List</h1>
-        <div className="flex justify-between sm:justify-end w-[90%] text-xl font-medium flex-1 gap-2">
+        <div className="flex justify-between sm:justify-end w-[95%] sm:text-xl text-sm font-medium flex-1 gap-2">
           <button className={`py-2 px-4 rounded-4xl bg-neutral-0 shadow-md dark:border dark:border-neutral-500 dark:bg-neutral-700 ${filter === 'all' && 'bg-red-700 text-neutral-50 dark:bg-red-500 dark:text-neutral-950 dark:border-0'} hover:bg-red-600 focus-visible:border focus-visible:border-red-600 cursor-pointer `} onClick={()=> setFilter('all')}>All</button>
           <button className={`py-2 px-4 rounded-4xl bg-neutral-0 shadow-md dark:border dark:border-neutral-500 dark:bg-neutral-700 ${filter === 'active' && 'bg-red-700 text-neutral-50 dark:bg-red-500 dark:text-neutral-950 dark:border-0'} hover:bg-red-600 focus-visible:border focus-visible:border-red-600 cursor-pointer`} onClick={()=> setFilter('active')}>Active</button>
           <button className={`py-2 px-4 rounded-4xl bg-neutral-0 shadow-md dark:border dark:border-neutral-500 dark:bg-neutral-700 ${filter === 'inactive' && 'bg-red-700 text-neutral-50 dark:bg-red-500 dark:text-neutral-950 dark:border-0'} hover:bg-red-600 focus-visible:border focus-visible:border-red-600 cursor-pointer`}onClick={()=> setFilter('inactive')}>Inactive</button>
-          <button className={`py-2 px-4 rounded-4xl bg-neutral-0 shadow-md dark:border dark:border-neutral-500 dark:bg-neutral-700 ${filter === 'remove' && 'bg-red-700 text-neutral-50 dark:bg-red-500 dark:text-neutral-950 dark:border-0'} hover:bg-red-600 focus-visible:border focus-visible:border-red-600 cursor-pointer`}onClick={()=> setFilter('remove')}>Remove</button>
+          <button className={`py-2 px-4 rounded-4xl bg-neutral-0 shadow-md dark:border dark:border-neutral-500 dark:bg-neutral-700 ${filter === 'remove' && 'bg-red-700 text-neutral-50 dark:bg-red-500 dark:text-neutral-950 dark:border-0'} hover:bg-red-600 focus-visible:border focus-visible:border-red-600 cursor-pointer`}onClick={()=> setFilter('remove')}>Removed</button>
         </div>
       </section>
       <section className={`extensions flex flex-col sm:flex-row flex-wrap gap-3 ${filter === 'remove' && removed.length < 2 ? 'justify-start' : 'justify-center'} items-center`}>
             {displayedExtentions.map((extension) => {
               return(
-              <div key={extension.name} className="min-w-[250px] sm:max-w-none md:max-w-[320px] lg:max-w-[350px]  w-full h-[250px] justify-between p-5 rounded-xl flex flex-col gap-6 shadow-md dark:border dark:border-neutral-500 bg-neutral-50 dark:bg-neutral-800">
+              <div key={extension.name} className="min-w-[250px] sm:max-w-none md:max-w-[320px] lg:max-w-[350px]  h-[250px] justify-between p-5 rounded-xl flex flex-col gap-6 shadow-md dark:border dark:border-neutral-500 bg-neutral-50 dark:bg-neutral-800">
                   <article className="flex gap-4 items-start">
                     <img src={extension.logo} alt={extension.name} />  
                     <div>
